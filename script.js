@@ -1,7 +1,7 @@
 // create a new instance of ChatEngine
 ChatEngine = ChatEngineCore.create({
-    publishKey: '<YOUR PUBLIC KEY - from PUBNUB>',
-    subscribeKey: '<YOUR subscribeKey - from PUBNUB'
+    publishKey: '<pub-c-6d77029a-ca4a-4bde-9a0c-9f0d955013e6>',
+    subscribeKey: '<sub-c-3abb7690-a2c3-11eb-b65a-ce685c2f57ca'
 });
 
 // use a helper function to generate a new profile
