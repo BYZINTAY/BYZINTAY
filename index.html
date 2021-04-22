@@ -1,288 +1,288 @@
-<html>
-<title>PubNub ChatEngine</title>
+<header>
+  <h1>Super Duper Simple Chat</h1>
+  <h2>Powered by PubNub</h2>
+</header>
 
-<head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"></link>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chat-engine@0.8.4/dist/chat-engine.min.js" type="text/javascript"></script>
-</head>
-
-<body>
-    <div class="container clearfix">
-        <div class="people-list" id="people-list">
-            <ul class="list">
-            </ul>
-        </div>
-        <div class="chat">
-            <div class="chat-header clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
-                <div class="chat-about">
-                    <div class="chat-with">Cloud Chat</div>
-                </div>
-            </div>
-            <div class="chat-history">
-                <ul></ul>
-            </div>
-            <form id="sendMessage" class="chat-message clearfix">
-                <input type="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="1"></input>
-                <input type="submit" value="Send"></input>
-            </form>
-            <!-- end chat-message -->
-        </div>
-        <!-- end chat -->
-    </div>
-    <!-- end container -->
-    
-    <script id="message-template" type="text/x-handlebars-template">
-        <li class="clearfix">
-            <div class="message-data align-right">
-                <span class="message-data-time">{{time}}, Today</span> &nbsp; &nbsp;
-                <span class="message-data-name">{{user.first}}</span> <i class="fa fa-circle me"></i>
-            </div>
-            <div class="message other-message float-right">
-                {{messageOutput}}
-            </div>
-        </li>
-    </script>
-    <script id="message-response-template" type="text/x-handlebars-template">
-        <li>
-            <div class="message-data">
-                <span class="message-data-name"><i class="fa fa-circle online"></i> {{user.first}}</span>
-                <span class="message-data-time">{{time}}, Today</span>
-            </div>
-            <div class="message my-message">
-                {{messageOutput}}
-            </div>
-        </li>
-    </script>
-    <script id="person-template" type="text/x-handlebars-template">
-        {{#if state.full}}
-        <li class="clearfix" id="{{uuid}}">
-            <img src="{{state.avatar}}" alt="avatar" />
-            <div class="about">
-                <div class="name">{{state.full}}</div>
-                <div class="status">
-                    <i class="fa fa-circle online"></i> online
-                </div>
-            </div>
-        </li>
-        {{/if}}
-    </script>
+<section id="main" role="main">
+  <div class="chat">
+    <i class="avatar" class="face12"></i>
+    <input type="text" placeholder="Type your message..."> 
+    <button>Send</button>
+  </div>
   
-</body>
 
-</html>
+  <p class="presence"></p>
+  <div class="output"></div>
+</section>
 <style>
-  @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
-*, *:before, *:after {
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
-  background: #C5DDEB;
-  font: 14px/20px "Lato", Arial, sans-serif;
-  padding: 20px 0;
-  color: white;
+  padding: 0;
+  margin: 0;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif;
+  background: #f9f9f9;
+  color: #333;
 }
 
-.container {
-  margin: 0 auto;
-  width: 750px;
-  background: #444753;
-  border-radius: 5px;
+header {
+  background: #fff;
+  border-top: 4px solid #ce1126;
+  border-bottom-color: #eee;
 }
 
-.people-list {
-  width: 260px;
-  float: left;
-  overflow-y: auto;
-  max-height: 532px;
+h1,
+h2,
+h3 {
+  margin: 0;
+  text-rendering: optimizeLegibility;
 }
-.people-list .search {
-  padding: 20px;
+
+h1 {
+  font-size: 2.4em;
+  line-height: 1.6em;
+  text-align: center;
+  font-weight: normal;
 }
-.people-list input {
-  border-radius: 3px;
-  border: none;
-  padding: 14px;
-  color: white;
-  background: #6A6C75;
-  width: 90%;
-  font-size: 14px;
+
+h2 {
+  font-size: 1.2em;
+  line-height: 1.4em;
+  text-align: center;
+  font-weight: normal;
+  text-transform: uppercase;
 }
-.people-list .fa-search {
+
+input[type=text],
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid #ddd;
+  color: #333;
+  font-size: 1em;
+  padding: .7em 1em;
+  margin-bottom: 1em;
   position: relative;
-  left: -25px;
+  top: 15px;
 }
-.people-list ul {
-  padding: 20px;
-  height: 500px;
+
+input[type=text] {
+  margin-left: 85px;
+  width: calc(100% - 225px);
 }
-.people-list ul li {
-  padding-bottom: 20px;
+
+button {
+  background: #e6e6e6;
+  text-shadow: 0 1px 0 #f3f3f3;
+  margin: .5em 0 2em 0;
+  width: 120px;
 }
-.people-list img {
-  float: left;
+
+#main {
+  margin: 2em 1em 1em;
 }
-.people-list .about {
-  float: left;
-  margin-top: 8px;
+
+#main > h2 {
+  font-weight: normal;
+  font-size: 1.2em;
+  margin-bottom: 1.5em;
 }
-.people-list .about {
-  padding-left: 8px;
-}
-.people-list .status {
-  color: #92959E;
+
+#main > p {
+  color: #ce1126;
 }
 
 .chat {
-  width: 490px;
-  float: left;
-  background: #F2F5F8;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  color: #434651;
-}
-.chat .chat-header {
-  padding: 20px;
-  border-bottom: 2px solid white;
-}
-.chat .chat-header img {
-  float: left;
-}
-.chat .chat-header .chat-about {
-  float: left;
-  padding-left: 10px;
-  margin-top: 6px;
-}
-.chat .chat-header .chat-with {
-  font-weight: bold;
-  font-size: 16px;
-}
-.chat .chat-header .chat-num-messages {
-  color: #92959E;
-}
-.chat .chat-header .fa-star {
-  float: right;
-  color: #D8DADF;
-  font-size: 20px;
-  margin-top: 12px;
-}
-.chat .chat-history {
-  padding: 30px 30px 20px;
-  border-bottom: 2px solid white;
-  overflow-y: scroll;
-  height: 300px;
-}
-.chat .chat-history .message-data {
-  margin-bottom: 15px;
-}
-.chat .chat-history .message-data-time {
-  color: #a8aab1;
-  padding-left: 6px;
-}
-.chat .chat-history .message {
-  color: white;
-  padding: 8px 10px;
-  line-height: 26px;
-  font-size: 16px;
-  border-radius: 7px;
-  margin-bottom: 15px;
-  width: 90%;
+  height: 85px;
   position: relative;
 }
-.chat .chat-history .message:after {
-  bottom: 100%;
-  left: 7%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
+
+.chat i {
+  font-size: 75px;
   position: absolute;
-  pointer-events: none;
-  border-bottom-color: #86BB71;
-  border-width: 10px;
-  margin-left: -10px;
-}
-.chat .chat-history .my-message {
-  background: #86BB71;
-}
-.chat .chat-history .other-message {
-  background: #94C2ED;
-}
-.chat .chat-history .other-message:after {
-  border-bottom-color: #94C2ED;
-  left: 93%;
-}
-.chat .chat-message {
-  padding: 30px;
-}
-.chat .chat-message input[type="text"] {
-  width: 100%;
-  border: none;
-  padding: 10px 20px;
-  font: 14px/22px "Lato", Arial, sans-serif;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  resize: none;
-  background-color: #fff;
-}
-.chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
-  font-size: 16px;
-  color: gray;
-  cursor: pointer;
-}
-.chat .chat-message input[type="submit"] {
-  float: right;
-  color: #94C2ED;
-  font-size: 16px;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  background: #F2F5F8;
-}
-.chat .chat-message input[type="submit"]:hover {
-  color: #75b1e8;
 }
 
-.online, .offline, .me {
-  margin-right: 3px;
-  font-size: 10px;
+.output p {
+  font-size: 1.2em;
+  margin: 0.6em;
+  position: relative;
 }
 
-.online {
-  color: #86BB71;
+.output i {
+  font-size: 40px;
+  position: absolute;
+  top: -5px;
 }
 
-.offline {
-  color: #E38968;
+.output i + span {
+  position: relative;
+  margin-left: 40px;
+}
+/* Font Icons */
+
+[class^="face"],
+[class*=" face"] {
+  font-family: 'Material Icons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.me {
-  color: #94C2ED;
+.face-1:before {
+  content: "face";
 }
 
-.align-left {
-  text-align: left;
+.face-2:before {
+  content: "favorite";
 }
 
-.align-right {
-  text-align: right;
+.face-3:before {
+  content: "adb";
 }
 
-.float-right {
-  float: right;
+.face-4:before {
+  content: "cake";
 }
 
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
+.face-5:before {
+  content: "whatshot";
+}
+
+.face-6:before {
+  content: "invert_colors";
+}
+
+.face-7:before {
+  content: "stars";
+}
+
+.face-8:before {
+  content: "mood_bad";
+}
+
+.face-9:before {
+  content: "mood";
+}
+
+.face-10:before {
+  content: "star";
+}
+
+.face-11:before {
+  content: "directions_bike";
+}
+
+.face-12:before {
+  content: "star_half";
+}
+
+.face-13:before {
+  content: "school";
+}
+
+.color-1 {
+  color: #393b79;
+}
+
+.color-2 {
+  color: #6b6ecf;
+}
+
+.color-3 {
+  color: #637939;
+}
+
+.color-4 {
+  color: #b5cf6b;
+}
+
+.color-5 {
+  color: #8c6d31;
+}
+
+.color-6 {
+  color: #e7ba52;
+}
+
+.color-7 {
+  color: #843c39;
+}
+
+.color-8 {
+  color: #d6616b;
+}
+
+.color-9 {
+  color: #7b4173;
+}
+
+.color-10 {
+  color: #ce6dbd;
 }
 </style>
+<script>
+(function() {
+
+  var output = document.querySelector('.output'),
+    input = document.querySelector('input'),
+    button = document.querySelector('button'),
+    avatar = document.querySelector('.avatar'),
+    presence = document.querySelector('.presence');
+  var channel = 'simple-chat';
+
+  // Assign a random avatar in random color
+  avatar.className = 'face-' + ((Math.random() * 13 + 1) >>> 0) + ' color-' + ((Math.random() * 10 + 1) >>> 0);
+
+  var p = PUBNUB.init({
+    subscribe_key: 'sub-c-aebbbe12-a2fd-11eb-b65a-ce685c2f57ca',
+    publish_key: 'pub-c-f16ee0b3-cd4d-47de-a74f-b21657ff4f0b',
+    ssl: true
+  });
+
+  p.subscribe({
+    channel: channel,
+    callback: function(m) {
+      output.innerHTML = '<p><i class="' + m.avatar + '"></i><span>' + m.text.replace(/[<>]/ig, '') + '</span></p>' + output.innerHTML;
+    },
+    presence: function(m) {
+      if (m.occupancy > 1) {
+        presence.textContent = m.occupancy + ' people online';
+      } else {
+        presence.textContent = 'Nobody else is online';
+      }
+    }
+  });
+
+  input.addEventListener('keyup', function(e) {
+    (e.keyCode || e.charCode) === 13 && send()
+  }, false);
+ button.addEventListener('click', send, false);
+
+  function send() {
+    p.publish({
+      channel: channel,
+      message: {
+        avatar: avatar.className,
+        text: input.value
+      },
+      callback: function(){input.value = '';}
+    });
+  }
+
+})();
+</script>
