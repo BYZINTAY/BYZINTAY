@@ -1,7 +1,7 @@
 // create a new instance of ChatEngine
 ChatEngine = ChatEngineCore.create({
-    publishKey: '<pub-c-6d77029a-ca4a-4bde-9a0c-9f0d955013e6>',
-    subscribeKey: '<sub-c-3abb7690-a2c3-11eb-b65a-ce685c2f57ca'
+    publishKey: '<pub-c-f16ee0b3-cd4d-47de-a74f-b21657ff4f0b>',
+    subscribeKey: '<sub-c-aebbbe12-a2fd-11eb-b65a-ce685c2f57ca'
 });
 
 // use a helper function to generate a new profile
